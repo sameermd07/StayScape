@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WonderLust</title>
+</head>
+<body>
+    <h1><%=curr.title%></h1>
+    <img src="<%=curr.image.url%>" alt="image of hotel">
+    <p>Description:<%=curr.description%></p>
+    <p>Price: <%= new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(curr.price) %></p>
+
+</body>
+</html>

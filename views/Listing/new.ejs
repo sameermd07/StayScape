@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Listing</title>
+</head>
+<body>
+  <h1>Create a New Listing</h1>
+
+  <form action="/listings" method="POST">
+    <!-- Title -->
+    <div>
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" placeholder="Enter title" required>
+    </div>
+
+    <!-- Description -->
+    <div>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" placeholder="Enter description" required></textarea>
+    </div>
+
+    <!-- Image Filename -->
+    <div>
+      <label for="imageFilename">Image Filename:</label>
+      <input type="text" id="imageFilename" name="image[filename]" placeholder="Enter image filename" value="listingimage">
+    </div>
+
+    <!-- Image URL -->
+    <div>
+      <label for="imageUrl">Image URL:</label>
+      <input type="url" id="imageUrl" name="image[url]" placeholder="Enter image URL" required>
+    </div>
+
+    <!-- Price -->
+    <div>
+      <label for="price">Price:</label>
+      <input type="number" id="price" name="price" min="0" placeholder="Enter price" required>
+    </div>
+
+    <!-- Location -->
+    <div>
+      <label for="location">Location:</label>
+      <input type="text" id="location" name="location" placeholder="Enter location" required>
+    </div>
+
+    <!-- Country -->
+    <div>
+      <label for="country">Country:</label>
+      <input type="text" id="country" name="country" placeholder="Enter country" required>
+    </div>
+
+    <!-- Submit Button -->
+    <div>
+      <button type="submit">Create Listing</button>
+    </div>
+  </form>
+</body>
+</html>
