@@ -1,7 +1,7 @@
-<%layout("../Layouts/boilerplate")%>
+<% layout("../Layouts/boilerplate") %>
 
 <style>
-  .create-listing-container {
+  .edit-listing-container {
     max-width: 700px;
     margin: 40px auto;
     padding: 0 20px;
@@ -139,16 +139,16 @@
   }
 </style>
 
-<div class="create-listing-container">
+<div class="edit-listing-container">
   
   <!-- Page Header -->
   <div class="page-header">
-    <h1><i class="fas fa-plus-circle" style="color: var(--primary-red);"></i> Create a New Listing</h1>
-    <p>Share your space with travelers from around the world</p>
+    <h1><i class="fas fa-edit" style="color: var(--primary-red);"></i> Edit Listing</h1>
+    <p>Update your listing details</p>
   </div>
 
   <!-- Form -->
-  <form action="/listings" method="POST" class="listing-form">
+  <form action="/listings/<%= curr._id %>?_method=PUT" method="POST" class="listing-form">
     
     <!-- Title -->
     <div class="mb-4">
@@ -163,6 +163,7 @@
         class="form-control" 
         id="title" 
         name="title" 
+        value="<%= curr.title %>"
         placeholder="e.g., Cozy Beach House in Goa" 
         required
       >
@@ -183,7 +184,7 @@
         name="description" 
         placeholder="Describe what makes your place special..."
         required
-      ></textarea>
+      ><%= curr.description %></textarea>
       <div class="form-text">Highlight the best features and amenities</div>
     </div>
 
@@ -200,6 +201,7 @@
         class="form-control" 
         id="imageUrl" 
         name="image[url]" 
+        value="<%= curr.image.url %>"
         placeholder="https://example.com/image.jpg" 
         required
       >
@@ -207,7 +209,7 @@
     </div>
 
     <!-- Image Filename (Hidden) -->
-    <input type="hidden" name="image[filename]" value="listingimage">
+    <input type="hidden" name="image[filename]" value="<%= curr.image.filename %>">
 
     <!-- Price -->
     <div class="mb-4">
@@ -225,6 +227,7 @@
           id="price" 
           name="price" 
           min="0" 
+          value="<%= curr.price %>"
           placeholder="1200" 
           required
         >
@@ -248,6 +251,7 @@
           class="form-control" 
           id="location" 
           name="location" 
+          value="<%= curr.location %>"
           placeholder="e.g., Mumbai, Goa" 
           required
         >
@@ -266,6 +270,7 @@
           class="form-control" 
           id="country" 
           name="country" 
+          value="<%= curr.country %>"
           placeholder="e.g., India" 
           required
         >
@@ -275,13 +280,13 @@
     <!-- Action Buttons -->
     <div class="row g-3 mt-2">
       <div class="col-md-6">
-        <a href="/listings" class="cancel-btn">
+        <a href="/listings/<%= curr._id %>" class="cancel-btn">
           <i class="fas fa-times me-2"></i>Cancel
         </a>
       </div>
       <div class="col-md-6">
         <button type="submit" class="submit-btn">
-          <i class="fas fa-check me-2"></i>Create Listing
+          <i class="fas fa-save me-2"></i>Update Listing
         </button>
       </div>
     </div>

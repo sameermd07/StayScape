@@ -1,17 +1,189 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WonderLust</title>
-</head>
-<body>
-    <h1>All Listings</h1>
-    <h1><a href="/listings/new">New</a></h1>
-    <ul>
-        <% for(let listing of allListings){%>
-            <li><a href="/listings/<%=listing._id %>"><%=listing.title%></a></li>
-        <%}%>
-    </ul>
-</body>
-</html>
+<% layout("../Layouts/boilerplate") %>
+
+<style>
+  .listings-container {
+    padding: 24px 40px;
+    max-width: 1920px;
+    margin: 0 auto;
+  }
+
+  .listing-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s ease;
+  }
+
+  .listing-card:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .image-container {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    padding-top: 100%;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .listing-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .listing-card:hover .listing-image {
+    transform: scale(1.06);
+  }
+
+  .favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 2;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .favorite-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 1);
+  }
+
+  .favorite-icon {
+    width: 18px;
+    height: 18px;
+    stroke: #222;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .listing-info {
+    padding: 0 2px;
+  }
+
+  .listing-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
+    line-height: 1.25;
+    margin: 0 0 4px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .rating {
+    font-size: 13px;
+    color: #222;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .star {
+    font-size: 11px;
+  }
+
+  .listing-location {
+    font-size: 14px;
+    color: #717171;
+    margin: 0 0 6px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .listing-price {
+    font-size: 15px;
+    color: #222;
+    margin: 0;
+  }
+
+  .price-amount {
+    font-weight: 600;
+  }
+
+  /* Custom responsive adjustments */
+  @media (max-width: 768px) {
+    .listings-container {
+      padding: 16px 20px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .listings-container {
+      padding: 12px 16px;
+    }
+    
+    .listing-title {
+      font-size: 14px;
+    }
+    
+    .listing-location,
+    .listing-price {
+      font-size: 13px;
+    }
+  }
+</style>
+
+<div class="listings-container">
+  <div class="container-fluid px-0">
+    <div class="row g-3 g-md-3 g-lg-4">
+      <% allListings.forEach(listing => { %>
+        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+          <a href="/listings/<%= listing._id %>" class="listing-card">
+            <div class="image-container">
+              <img 
+                src="<%= listing.image?.url || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600' %>" 
+                class="listing-image" 
+                alt="<%= listing.title %>"
+              >
+              <button class="favorite-btn" onclick="event.preventDefault();">
+                <svg class="favorite-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 28s-1-1-7.5-7.5C3 15 1 12 1 8.5 1 5.4 3.4 3 6.5 3 9 3 11 4.5 12 6c.5 1 1 2 1 2h6s.5-1 1-2c1-1.5 3-3 5.5-3 3.1 0 5.5 2.4 5.5 5.5 0 3.5-2 6.5-7.5 12C23 26 16 28 16 28z"/>
+                </svg>
+              </button>
+            </div>    
+            <div class="listing-info">
+              <div class="d-flex justify-content-between align-items-start mb-1">
+                <h3 class="listing-title flex-grow-1"><%= listing.title %></h3>
+                <% if (listing.rating) { %>
+                  <div class="rating ms-2">
+                    <span class="star">★</span>
+                    <span><%= listing.rating %></span>
+                  </div>
+                <% } %>
+              </div>
+              
+              <div class="listing-location">
+                <%= listing.location %>, <%= listing.country %>
+              </div>
+              
+              <div class="listing-price">
+                <span class="price-amount">₹<%= listing.price.toLocaleString('en-IN') %></span> night
+              </div>
+            </div>
+          </a>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
