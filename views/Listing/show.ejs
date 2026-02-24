@@ -301,6 +301,67 @@
         <p class="listing-description"><%=curr.description%></p>
       </div>
 
+      <!-- Reviews Section -->
+      <div class="listing-description-section">
+        <h2 class="section-title">
+          <i class="fas fa-star"></i>
+          <span>Reviews</span>
+        </h2>
+
+        <% if (curr.reviews && curr.reviews.length > 0) { %>
+          <ul class="list-group mb-3">
+            <% curr.reviews.forEach(function(r) { %>
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="me-3">
+                  <strong>Rating:</strong> <%= r.rating %>/5<br />
+                  <span><%= r.comment %></span>
+                </div>
+                <form action="/listings/<%= curr._id %>/reviews/<%= r._id %>/delete" method="POST">
+                  <button type="submit" class="btn btn-sm btn-outline-danger">
+                    Delete
+                  </button>
+                </form>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <p class="text-muted">No reviews yet. Be the first to review this place.</p>
+        <% } %>
+      </div>
+
+      <!-- Add Review Form -->
+      <div class="listing-description-section">
+        <h2 class="section-title">
+          <i class="fas fa-pen"></i>
+          <span>Leave a review</span>
+        </h2>
+
+        <form action="/listings/<%= curr._id %>/reviews" method="POST">
+          <div class="mb-3">
+            <label for="rating" class="form-label">Rating (1-5)</label>
+            <select id="rating" name="rating" class="form-select" required>
+              <option value="" disabled selected>Select rating</option>
+              <% for (let i = 5; i >= 1; i--) { %>
+                <option value="<%= i %>"><%= i %></option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea
+              id="comment"
+              name="comment"
+              class="form-control"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+      </div>
+
       <!-- Info Grid -->
       <div class="info-grid">
         <div class="info-item">
