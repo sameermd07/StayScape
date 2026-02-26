@@ -1,0 +1,172 @@
+<% layout("../Layouts/boilerplate") %>
+
+<style>
+  .auth-container {
+    max-width: 480px;
+    margin: 60px auto;
+    padding: 0 20px;
+  }
+
+  .auth-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .auth-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .auth-subtitle {
+    color: #717171;
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 0.95rem;
+  }
+
+  .form-group { margin-bottom: 20px; }
+
+  .form-label {
+    display: block;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: #FF385C;
+  }
+
+  .btn-auth {
+    width: 100%;
+    background: #FF385C;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 8px;
+  }
+
+  .btn-auth:hover {
+    background: #e0314f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 56, 92, 0.3);
+  }
+
+  .auth-footer {
+    text-align: center;
+    margin-top: 24px;
+    color: #717171;
+    font-size: 0.95rem;
+  }
+
+  .auth-footer a {
+    color: #FF385C;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .error-msg {
+    background: #fff0f3;
+    border: 1px solid #ffccd5;
+    color: #c0392b;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .success-msg {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+</style>
+
+<div class="auth-container">
+  <div class="auth-card">
+    <h1 class="auth-title">Welcome Back</h1>
+    <p class="auth-subtitle">Log in to your WonderLust account</p>
+
+    <% if(locals.successMsg) { %>
+      <div class="success-msg">
+        <i class="fas fa-check-circle"></i>
+        <%= successMsg %>
+      </div>
+    <% } %>
+
+    <% if(locals.errorMsg) { %>
+      <div class="error-msg">
+        <i class="fas fa-exclamation-circle"></i>
+        <%= errorMsg %>
+      </div>
+    <% } %>
+
+    <form action="/login" method="POST">
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          placeholder="you@example.com"
+          value="<%= locals.formData?.email || '' %>"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn-auth">
+        <i class="fas fa-sign-in-alt"></i> Log In
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      Don't have an account? <a href="/signup">Sign Up</a>
+    </div>
+  </div>
+</div>

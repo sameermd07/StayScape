@@ -1,7 +1,4 @@
 const mongoose =require('mongoose')
-const {connectDb}=require('./ConnectDb.js');
-//connection to db!!!!!
-connectDb()
 const listingSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -49,4 +46,3 @@ const listingSchema = new mongoose.Schema({
 });
 const listing = mongoose.model('listing',listingSchema);
 module.exports = {listing};
-

@@ -1,38 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Error</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .error-box {
-      background: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      max-width: 400px;
-      text-align: center;
-    }
-    h1 {
-      color: #e74c3c;
-    }
-    p {
-      color: #555;
-    }
-  </style>
-</head>
-<body>
-  <div class="error-box">
-    <h1>Oops!</h1>
-    <p><%= obj.y %></p>
-    <small>Error code: <%= obj.x %></small>
-  </div>
-</body>
-</html>
+<% layout("Layouts/boilerplate") %>
+
+<style>
+  .error-container {
+    text-align: center;
+    padding: 80px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .error-code {
+    font-size: 8rem;
+    font-weight: 800;
+    color: #FF385C;
+    line-height: 1;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 0 rgba(255,56,92,0.2);
+  }
+
+  .error-message {
+    font-size: 2rem;
+    color: #222;
+    margin-bottom: 20px;
+  }
+
+  .error-description {
+    color: #717171;
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+  }
+
+  .btn-home {
+    display: inline-block;
+    background: #FF385C;
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-home:hover {
+    background: #e0314f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 56, 92, 0.3);
+  }
+</style>
+
+<div class="error-container">
+  <div class="error-code"><%= obj.x %></div>
+  <h1 class="error-message">Oops! Something went wrong</h1>
+  <p class="error-description"><%= obj.y %></p>
+  <a href="/listings" class="btn-home">
+    <i class="fas fa-home me-2"></i>Go to Listings
+  </a>
+</div>
