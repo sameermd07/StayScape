@@ -145,13 +145,46 @@ app.get("/", (req, res) => res.redirect("/listings"));
 
 app.get("/listings", async (req, res) => {
     try {
-        const allListings = await listing.find({});
+        const { location, minPrice, maxPrice, minRating, sort } = req.query;
+        const filters = { location, minPrice, maxPrice, minRating, sort };
+
+        // Build MongoDB query
+        const query = {};
+        if (location && location.trim()) {
+            query.$or = [
+                { location: { $regex: location.trim(), $options: 'i' } },
+                { country:  { $regex: location.trim(), $options: 'i' } }
+            ];
+        }
+        if (minPrice || maxPrice) {
+            query.price = {};
+            if (minPrice && !isNaN(minPrice)) query.price.$gte = Number(minPrice);
+            if (maxPrice && !isNaN(maxPrice)) query.price.$lte = Number(maxPrice);
+        }
+
+        // Sort option
+        let sortObj = {};
+        if (sort === 'price_asc')  sortObj = { price:  1 };
+        if (sort === 'price_desc') sortObj = { price: -1 };
+
+        let allListings = await listing.find(query).populate('reviews').sort(sortObj);
+
+        // Filter by average rating (in-memory after population)
+        if (minRating && !isNaN(minRating)) {
+            const min = Number(minRating);
+            allListings = allListings.filter(l => {
+                if (!l.reviews || l.reviews.length === 0) return min <= 0;
+                const avg = l.reviews.reduce((s, r) => s + r.rating, 0) / l.reviews.length;
+                return avg >= min;
+            });
+        }
+
         let bookedIds = new Set();
         if (req.user) {
             const ub = await Booking.find({ bookedBy: req.user._id, status: "confirmed" }).select("listing");
             ub.forEach(b => bookedIds.add(b.listing.toString()));
         }
-        res.render("Listing/index", { allListings, bookedIds });
+        res.render("Listing/index", { allListings, bookedIds, filters });
     } catch (err) { setFlash(req, "error", "Failed to fetch listings"); res.redirect("/"); }
 });
 

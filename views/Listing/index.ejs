@@ -3,45 +3,106 @@
 <style>
   :root { --red: #FF385C; --dark-red: #E31C5F; }
 
-  .page-hero {
-    background: linear-gradient(135deg, #fff5f7 0%, #fff 60%);
-    border-radius: 20px; padding: 44px 36px 32px;
-    margin-bottom: 36px; border: 1px solid rgba(255,56,92,0.08);
-  }
-  .page-hero h1 { font-size: 2.2rem; font-weight: 800; color: #222; margin-bottom: 6px; }
-  .page-hero p  { color: #888; font-size: 1rem; margin: 0; }
+  /* ── Hero ── */
+  .page-hero { background:linear-gradient(135deg,#fff5f7 0%,#fff 60%); border-radius:20px; padding:36px 36px 28px; margin-bottom:24px; border:1px solid rgba(255,56,92,0.08); }
+  .page-hero h1 { font-size:2.2rem; font-weight:800; color:#222; margin-bottom:6px; }
+  .page-hero p  { color:#888; font-size:1rem; margin:0; }
   .hero-count { display:inline-block; background:var(--red); color:#fff; border-radius:20px; padding:2px 12px; font-size:0.82rem; font-weight:700; margin-left:8px; vertical-align:middle; }
 
-  .listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 24px; }
+  /* ── Filter Panel ── */
+  .filter-panel {
+    background:#fff; border:1.5px solid #eee; border-radius:16px;
+    padding:20px 24px; margin-bottom:28px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.04);
+  }
+  .filter-form { display:flex; flex-direction:column; gap:14px; }
+  .filter-row { display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; }
+
+  .filter-group { display:flex; flex-direction:column; gap:5px; min-width:140px; flex:1; }
+  .filter-label { font-size:0.75rem; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:0.5px; }
+
+  .filter-input {
+    padding:9px 13px; border:1.5px solid #e0e0e0; border-radius:10px;
+    font-size:0.88rem; font-family:inherit; background:#fff;
+    transition:border-color 0.2s; color:#333; width:100%; box-sizing:border-box;
+  }
+  .filter-input:focus { outline:none; border-color:var(--red); box-shadow:0 0 0 3px rgba(255,56,92,0.08); }
+
+  /* Price row */
+  .price-row { display:flex; gap:6px; align-items:center; }
+  .price-row .filter-input { min-width:0; }
+  .price-sep { color:#bbb; font-size:0.85rem; flex-shrink:0; }
+
+  /* Star rating filter */
+  .star-filter { display:flex; gap:5px; flex-wrap:wrap; }
+  .star-btn {
+    padding:7px 11px; border-radius:9px; border:1.5px solid #e0e0e0;
+    background:#fff; font-size:0.82rem; font-weight:600; cursor:pointer;
+    color:#888; transition:all 0.2s; white-space:nowrap; min-width:44px; text-align:center;
+  }
+  .star-btn:hover { border-color:var(--red); color:var(--red); }
+  .star-btn.active { background:var(--red); color:#fff; border-color:var(--red); box-shadow:0 2px 8px rgba(255,56,92,0.25); }
+
+  /* Sort select */
+  .sort-select {
+    padding:9px 13px; border:1.5px solid #e0e0e0; border-radius:10px;
+    font-size:0.88rem; font-family:inherit; background:#fff;
+    color:#333; cursor:pointer; transition:border-color 0.2s;
+  }
+  .sort-select:focus { outline:none; border-color:var(--red); }
+
+  /* Action buttons */
+  .filter-actions { display:flex; gap:8px; flex-shrink:0; }
+  .btn-filter {
+    padding:9px 20px; border-radius:10px; font-weight:700; font-size:0.88rem;
+    cursor:pointer; transition:all 0.2s; white-space:nowrap; border:none;
+  }
+  .btn-filter.apply { background:var(--red); color:#fff; }
+  .btn-filter.apply:hover { background:var(--dark-red); box-shadow:0 3px 10px rgba(255,56,92,0.3); }
+  .btn-filter.clear { background:#f5f5f5; color:#666; border:1.5px solid #e0e0e0; }
+  .btn-filter.clear:hover { background:#eee; color:#333; }
+
+  /* Active filter pills */
+  .active-filters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; align-items:center; }
+  .filter-pill {
+    display:inline-flex; align-items:center; gap:6px;
+    background:#fff0f2; border:1px solid #fca5a5; color:var(--red);
+    border-radius:20px; padding:4px 12px; font-size:0.8rem; font-weight:600;
+  }
+  .filter-pill a { color:inherit; text-decoration:none; opacity:0.6; margin-left:2px; }
+  .filter-pill a:hover { opacity:1; }
+  .no-results-label { font-size:0.9rem; color:#888; }
+
+  /* ── Grid ── */
+  .listings-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(275px,1fr)); gap:24px; }
 
   .listing-card {
-    background: #fff; border-radius: 16px; overflow: hidden;
-    border: 1.5px solid rgba(0,0,0,0.07); box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    transition: all 0.3s; text-decoration: none; color: inherit; display: flex; flex-direction: column;
+    background:#fff; border-radius:16px; overflow:hidden;
+    border:1.5px solid rgba(0,0,0,0.07); box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    transition:all 0.3s; text-decoration:none; color:inherit; display:flex; flex-direction:column;
   }
-  .listing-card:hover { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(0,0,0,0.11); border-color: rgba(255,56,92,0.15); color:inherit; text-decoration:none; }
-  .listing-card.unavailable { opacity: 0.72; }
+  .listing-card:hover { transform:translateY(-5px); box-shadow:0 10px 28px rgba(0,0,0,0.11); border-color:rgba(255,56,92,0.15); color:inherit; text-decoration:none; }
 
-  .card-img-wrap { position: relative; width: 100%; padding-top: 65%; overflow: hidden; background: #f5f5f5; }
-  .card-img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
-  .listing-card:hover .card-img-wrap img { transform: scale(1.06); }
+  .card-img-wrap { position:relative; width:100%; padding-top:65%; overflow:hidden; background:#f5f5f5; }
+  .card-img-wrap img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
+  .listing-card:hover .card-img-wrap img { transform:scale(1.06); }
 
   .card-country-badge { position:absolute; top:10px; right:10px; background:rgba(255,255,255,0.9); border-radius:18px; padding:3px 11px; font-size:0.75rem; font-weight:600; color:#444; backdrop-filter:blur(4px); }
-
-  /* Booking status badge */
   .card-status-badge { position:absolute; bottom:10px; left:10px; border-radius:8px; padding:4px 10px; font-size:0.72rem; font-weight:700; display:flex; align-items:center; gap:4px; backdrop-filter:blur(6px); }
   .card-status-badge.my-booking { background:rgba(22,163,74,0.9); color:#fff; }
-  .card-status-badge.unavailable { background:rgba(220,38,38,0.85); color:#fff; }
 
-  .card-body { padding: 16px 18px 18px; flex: 1; display: flex; flex-direction: column; }
-  .card-title { font-size: 1rem; font-weight: 700; color: #222; margin-bottom: 5px; display:-webkit-box; -webkit-line-clamp:1; line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
-  .card-location { color: #888; font-size: 0.84rem; margin-bottom: 10px; display:flex; align-items:center; gap:4px; }
-  .card-location i { color: var(--red); font-size: 0.75rem; }
-  .card-footer-row { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 10px; border-top: 1px solid #f0f0f0; }
-  .card-price { font-size: 0.95rem; font-weight: 700; color: #222; }
-  .card-price span { font-size: 0.78rem; font-weight: 400; color: #999; }
-  .card-reviews { font-size: 0.78rem; color: #999; display:flex; align-items:center; gap:3px; }
-  .card-reviews i { color: #FFB700; }
+  /* Star display on card */
+  .card-stars { font-size:0.75rem; color:#FFB700; }
+  .card-stars .empty { color:#e0e0e0; }
+  .card-avg { font-size:0.75rem; color:#888; margin-left:3px; }
+
+  .card-body { padding:16px 18px 18px; flex:1; display:flex; flex-direction:column; }
+  .card-title { font-size:1rem; font-weight:700; color:#222; margin-bottom:5px; display:-webkit-box; -webkit-line-clamp:1; line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+  .card-location { color:#888; font-size:0.84rem; margin-bottom:10px; display:flex; align-items:center; gap:4px; }
+  .card-location i { color:var(--red); font-size:0.75rem; }
+  .card-footer-row { display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:10px; border-top:1px solid #f0f0f0; }
+  .card-price { font-size:0.95rem; font-weight:700; color:#222; }
+  .card-price span { font-size:0.78rem; font-weight:400; color:#999; }
 
   .btn-add { display:inline-flex; align-items:center; gap:7px; background:var(--red); color:#fff; border:none; border-radius:12px; padding:11px 22px; font-weight:600; font-size:0.9rem; text-decoration:none; transition:all 0.25s; }
   .btn-add:hover { background:var(--dark-red); color:#fff; transform:translateY(-2px); box-shadow:0 5px 16px rgba(255,56,92,0.3); text-decoration:none; }
@@ -50,9 +111,28 @@
   .empty-state i { font-size:3.5rem; color:#e0e0e0; margin-bottom:16px; display:block; }
   .empty-state h3 { font-size:1.3rem; color:#888; margin-bottom:8px; }
 
-  @media(max-width:576px) { .page-hero { padding:28px 20px 22px; } .page-hero h1 { font-size:1.65rem; } .listings-grid { grid-template-columns:1fr; gap:16px; } }
+  @media(max-width:768px) {
+    .filter-form { flex-direction:column; }
+    .filter-group, .filter-actions { width:100%; }
+    .page-hero { padding:28px 20px 22px; }
+    .page-hero h1 { font-size:1.65rem; }
+    .listings-grid { grid-template-columns:1fr; gap:16px; }
+  }
 </style>
 
+<%
+  // Helper to build a URL that removes one filter param
+  function removeParam(q, key) {
+    const p = Object.assign({}, q);
+    delete p[key];
+    const s = Object.entries(p).filter(([,v]) => v).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+    return '/listings' + (s ? '?' + s : '');
+  }
+  const f = filters || {};
+  const hasFilters = f.location || f.minPrice || f.maxPrice || f.minRating || (f.sort && f.sort !== '');
+%>
+
+<!-- Hero -->
 <div class="page-hero">
   <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
     <div>
@@ -67,18 +147,107 @@
   </div>
 </div>
 
+<!-- Filter Panel -->
+<div class="filter-panel">
+  <form class="filter-form" method="GET" action="/listings" id="filterForm">
+
+    <!-- Row 1: Location + Price + Actions -->
+    <div class="filter-row">
+      <!-- Location -->
+      <div class="filter-group" style="flex:2;min-width:180px">
+        <label class="filter-label"><i class="fas fa-map-marker-alt me-1"></i> Location / Country</label>
+        <input type="text" name="location" class="filter-input" placeholder="e.g. Goa, India…" value="<%= f.location || '' %>">
+      </div>
+
+      <!-- Price range -->
+      <div class="filter-group" style="flex:1.5;min-width:180px">
+        <label class="filter-label"><i class="fas fa-rupee-sign me-1"></i> Price / Night</label>
+        <div class="price-row">
+          <input type="number" name="minPrice" class="filter-input" placeholder="Min" min="0" value="<%= f.minPrice || '' %>">
+          <span class="price-sep">–</span>
+          <input type="number" name="maxPrice" class="filter-input" placeholder="Max" min="0" value="<%= f.maxPrice || '' %>">
+        </div>
+      </div>
+
+      <!-- Actions -->  
+      <div class="filter-actions" style="flex-shrink:0">
+        <button type="submit" class="btn-filter apply"><i class="fas fa-search me-1"></i> Apply</button>
+        <% if (hasFilters) { %>
+          <a href="/listings" class="btn-filter clear"><i class="fas fa-times me-1"></i> Clear</a>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Row 2: Rating + Sort -->
+    <div class="filter-row">
+      <!-- Min rating stars -->
+      <div class="filter-group">
+        <label class="filter-label"><i class="fas fa-star me-1"></i> Min Rating</label>
+        <div class="star-filter" id="starFilter">
+          <% for (let s = 1; s <= 5; s++) { %>
+            <button type="button" class="star-btn <%= (f.minRating == s) ? 'active' : '' %>" data-val="<%= s %>">
+              <%= s %>★
+            </button>
+          <% } %>
+          <input type="hidden" name="minRating" id="minRatingInput" value="<%= f.minRating || '' %>">
+        </div>
+      </div>
+
+      <!-- Sort -->
+      <div class="filter-group" style="min-width:180px;max-width:220px">
+        <label class="filter-label"><i class="fas fa-sort me-1"></i> Sort By</label>
+        <select name="sort" class="sort-select filter-input">
+          <option value="" <%= !f.sort || f.sort==='' ? 'selected' : '' %>>Default</option>
+          <option value="price_asc"  <%= f.sort==='price_asc'  ? 'selected' : '' %>>Price: Low → High</option>
+          <option value="price_desc" <%= f.sort==='price_desc' ? 'selected' : '' %>>Price: High → Low</option>
+        </select>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<!-- Active filter pills -->
+<% if (hasFilters) { %>
+  <div class="active-filters">
+    <span style="font-size:0.8rem;color:#aaa;font-weight:600;margin-right:4px">Filters:</span>
+    <% if (f.location) { %>
+      <span class="filter-pill"><i class="fas fa-map-marker-alt"></i> <%= f.location %> <a href="<%= removeParam(f, 'location') %>">✕</a></span>
+    <% } %>
+    <% if (f.minPrice || f.maxPrice) { %>
+      <span class="filter-pill"><i class="fas fa-rupee-sign"></i>
+        <%= f.minPrice ? '₹'+Number(f.minPrice).toLocaleString('en-IN') : '0' %>
+        –
+        <%= f.maxPrice ? '₹'+Number(f.maxPrice).toLocaleString('en-IN') : '∞' %>
+        <a href="<%= removeParam(removeParam(f, 'minPrice'), 'maxPrice') %>">✕</a>
+      </span>
+    <% } %>
+    <% if (f.minRating) { %>
+      <span class="filter-pill"><i class="fas fa-star"></i> <%= f.minRating %>★ & above <a href="<%= removeParam(f, 'minRating') %>">✕</a></span>
+    <% } %>
+    <% if (f.sort && f.sort !== '') { %>
+      <span class="filter-pill"><i class="fas fa-sort"></i> <%= f.sort === 'price_asc' ? 'Price ↑' : 'Price ↓' %> <a href="<%= removeParam(f, 'sort') %>">✕</a></span>
+    <% } %>
+    <span class="no-results-label">— <%= allListings.length %> result<%= allListings.length !== 1 ? 's' : '' %></span>
+  </div>
+<% } %>
+
+<!-- Listings Grid -->
 <div class="listings-grid">
   <% if (allListings.length === 0) { %>
     <div class="empty-state">
-      <i class="fas fa-home"></i>
-      <h3>No listings yet</h3>
-      <p>Be the first to add an amazing place!</p>
+      <i class="fas fa-search"></i>
+      <h3>No listings found</h3>
+      <p>Try adjusting your filters or <a href="/listings" style="color:var(--red);font-weight:600">clear all</a>.</p>
     </div>
   <% } %>
 
   <% for (let l of allListings) { %>
     <%
       const isMyBooking = bookedIds.has(l._id.toString());
+      const avgRating = l.reviews && l.reviews.length > 0
+        ? (l.reviews.reduce((s, r) => s + r.rating, 0) / l.reviews.length)
+        : null;
     %>
     <a href="/listings/<%= l._id %>" class="listing-card">
       <div class="card-img-wrap">
@@ -97,9 +266,34 @@
         <div class="card-location"><i class="fas fa-map-marker-alt"></i> <%= l.location %></div>
         <div class="card-footer-row">
           <div class="card-price">₹<%= l.price.toLocaleString("en-IN") %> <span>/ night</span></div>
-          <div class="card-reviews"><i class="fas fa-star"></i> <%= l.reviews ? l.reviews.length : 0 %></div>
+          <div>
+            <% if (avgRating !== null) { %>
+              <span class="card-stars">
+                <% for (let s=1;s<=5;s++) { %>
+                  <i class="fas fa-star<%= s <= Math.round(avgRating) ? '' : '' %>" style="color:<%= s <= Math.round(avgRating) ? '#FFB700' : '#e0e0e0' %>; font-size:0.75rem;"></i>
+                <% } %>
+              </span>
+              <span class="card-avg"><%= avgRating.toFixed(1) %> (<%= l.reviews.length %>)</span>
+            <% } else { %>
+              <span style="font-size:0.75rem;color:#ccc">No reviews</span>
+            <% } %>
+          </div>
         </div>
       </div>
     </a>
   <% } %>
 </div>
+
+<script>
+  // Star rating filter buttons
+  document.querySelectorAll('.star-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = btn.dataset.val;
+      const input = document.getElementById('minRatingInput');
+      const already = btn.classList.contains('active');
+      document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('active'));
+      if (!already) { btn.classList.add('active'); input.value = val; }
+      else { input.value = ''; }
+    });
+  });
+</script>
